@@ -101,6 +101,7 @@
                 <version>1.9.17</version>
                 <configuration>
                     <enableJarClasses>false</enableJarClasses>
+                    <oauth2>false</oauth2>
                     <!-- Comment in the below snippet to bind to all IPs instead of just localhost -->
                     <!-- address>0.0.0.0</address>
                     <port>8080</port -->

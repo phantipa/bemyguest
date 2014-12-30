@@ -10,3 +10,7 @@ Easy steps ...
 * run     `mvn appengine:devserver`
 
 * deploy  `mvn appengine:update`
+
+Note that to deploy first time login needs app password ...
+
+https://security.google.com/settings/security/apppasswords?pli=1

@@ -9,6 +9,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,14 +27,17 @@ public class SignGuestbookServlet extends HttpServlet {
         String guestbookName = req.getParameter("guestbookName");
         Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
         String content = req.getParameter("content");
-        Date date = new Date();
-        Entity greeting = new Entity("Greeting", guestbookKey);
-        greeting.setProperty("user", user);
-        greeting.setProperty("date", date);
-        greeting.setProperty("content", content);
 
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(greeting);
+        if (content != null && !"".equals(content)) {
+            Date date = new Date();
+            Entity greeting = new Entity("Greeting", guestbookKey);
+            greeting.setProperty("user", user);
+            greeting.setProperty("date", date);
+            greeting.setProperty("content", content);
+
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            datastore.put(greeting);
+        }
 
         resp.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
     }

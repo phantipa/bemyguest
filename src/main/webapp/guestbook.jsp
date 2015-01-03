@@ -13,90 +13,128 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html>
+<%--<html>
 <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+</head>--%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome to Balenda!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
 </head>
 
 <body>
 
-<%
-    String guestbookName = request.getParameter("guestbookName");
-    if (guestbookName == null) {
-        guestbookName = "default";
-    }
-    pageContext.setAttribute("guestbookName", guestbookName);
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-        pageContext.setAttribute("user", user);
-%>
-<H1>Welcome to Balenda!</H1><br/>
+<div class="jumbotron" style=" text-align: center;">
+    <h1>Be my Guest!</h1>
+</div>
+<div class="container">
 
-<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-    <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
-<%
-} else {
-%>
-<H1>Welcome to Balenda!</H1><br/>
+    <div class="row">
+        <%
+            String guestbookName = request.getParameter("guestbookName");
+            if (guestbookName == null) {
+                guestbookName = "default";
+            }
+            pageContext.setAttribute("guestbookName", guestbookName);
+            UserService userService = UserServiceFactory.getUserService();
+            User user = userService.getCurrentUser();
+            if (user != null) {
+                pageContext.setAttribute("user", user);
+        %>
 
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-    to include your name with greetings you post.</p>
-<%
-    }
-%>
+        <p>Hello,
+            <mark>${fn:escapeXml(user.nickname)}</mark>
+            ! (You can
+            <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)
+        </p>
+        <%
+        } else {
+        %>
 
-<%--Guest Book--%>
-<%
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
-    // Run an ancestor query to ensure we see the most up-to-date
-    // view of the Greetings belonging to the selected Guestbook.
-    Query query = new Query("Greeting", guestbookKey).addSort("date", Query.SortDirection.DESCENDING);
-    List<Entity> greetings = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(5));
-    if (greetings.isEmpty()) {
-%>
-<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>
-<%
-} else {
-%>
-<%--<p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>--%>
-<%
-    for (Entity greeting : greetings) {
-        pageContext.setAttribute("greeting_content", greeting.getProperty("content"));
-
-        pageContext.setAttribute("greeting_date", greeting.getProperty("date"));
-
-        if (greeting.getProperty("user") == null) {
-%>
-<p>An anonymous person wrote:</p>
-<%
-} else {
-    pageContext.setAttribute("greeting_user", greeting.getProperty("user"));
-%>
-<p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
-<%
-    }
-%>
-<blockquote>${fn:escapeXml(greeting_content)}</blockquote>
-<%--<blockquote>${fn:escapeXml(greeting_date)}</blockquote>--%>
-<%
+        <p>Hello!
+            <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
+            to include your name with greetings you post.
+        </p>
+    </div>
+    <%
         }
-    }
-%>
+    %>
 
-<form action="/sign" method="post">
-    <div><textarea name="content" rows="3" cols="60"></textarea></div>
-    <div><input type="submit" value="Post Greeting"/></div>
-    <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-</form>
-<%--End Guest Book--%>
+    <%--Guest Book--%>
+    <div class="row">
+        <%
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
+            // Run an ancestor query to ensure we see the most up-to-date
+            // view of the Greetings belonging to the selected Guestbook.
+            Query query = new Query("Greeting", guestbookKey).addSort("date", Query.SortDirection.DESCENDING);
+            List<Entity> greetings = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(5));
+            if (greetings.isEmpty()) {
+        %>
+        <%--<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>--%>
+        <p>Guestbook has no messages.</p>
 
-<%--<form action="/guestbook.jsp" method="get">
-    <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
-    <div><input type="submit" value="Switch Guestbook"/></div>
-</form>--%>
 
+        <%
+        } else {
+        %>
+
+        <ul class="list-group">
+            <%--<tr><td><p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p></td></tr>--%>
+
+            <%
+                for (Entity greeting : greetings) {
+                    pageContext.setAttribute("greeting_content", greeting.getProperty("content"));
+
+                    pageContext.setAttribute("greeting_date", greeting.getProperty("date"));
+
+                    if (greeting.getProperty("user") == null) {
+            %>
+            <li class="list-group-item"><p>An anonymous person wrote:</p>
+
+                    <%
+            } else {
+                pageContext.setAttribute("greeting_user", greeting.getProperty("user"));
+            %>
+            <li class="list-group-item"><p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
+
+                <%
+                    }
+                %>
+
+                <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+            </li>
+            <%--<blockquote>${fn:escapeXml(greeting_date)}</blockquote>--%>
+            <%
+                    }
+                }
+            %>
+        </ul>
+
+    </div>
+
+    <form action="/sign" method="post">
+        <div class="form-group">
+            <input type="content" class="form-control" name="content" id="exampleInputEmail1"
+                   placeholder="I wanna say..">
+            <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Post Greeting</button>
+
+    </form>
+    <%--End Guest Book--%>
+
+    <%--<form action="/guestbook.jsp" method="get">
+        <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
+        <div><input type="submit" value="Switch Guestbook"/></div>
+    </form>--%>
+</div>
 </body>
 </html>

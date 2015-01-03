@@ -13,10 +13,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--<html>
-<head>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
-</head>--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +27,7 @@
 
 <body>
 
-<div class="jumbotron" style=" text-align: center;">
+<div class="jumbotron" style="text-align: center">
     <h1>Be my Guest!</h1>
 </div>
 <div class="container">
@@ -50,9 +46,8 @@
         %>
 
         <p>Hello,
-            <mark>${fn:escapeXml(user.nickname)}</mark>
-            ! (You can
-            <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)
+            <b>${fn:escapeXml(user.nickname)}</b>
+            ! (You can<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)
         </p>
         <%
         } else {
@@ -67,6 +62,15 @@
         }
     %>
 
+    <form action="/sign" method="post">
+        <div class="form-group">
+            <input type="content" class="form-control" name="content" id="exampleInputEmail1"
+                   placeholder="I wanna say..">
+            <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Post Greeting</button>
+    </form>
+    <br/>
     <%--Guest Book--%>
     <div class="row">
         <%
@@ -75,12 +79,11 @@
             // Run an ancestor query to ensure we see the most up-to-date
             // view of the Greetings belonging to the selected Guestbook.
             Query query = new Query("Greeting", guestbookKey).addSort("date", Query.SortDirection.DESCENDING);
-            List<Entity> greetings = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(5));
+            List<Entity> greetings = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(3));
             if (greetings.isEmpty()) {
         %>
         <%--<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>--%>
         <p>Guestbook has no messages.</p>
-
 
         <%
         } else {
@@ -92,44 +95,37 @@
             <%
                 for (Entity greeting : greetings) {
                     pageContext.setAttribute("greeting_content", greeting.getProperty("content"));
-
                     pageContext.setAttribute("greeting_date", greeting.getProperty("date"));
-
-                    if (greeting.getProperty("user") == null) {
             %>
-            <li class="list-group-item"><p>An anonymous person wrote:</p>
 
-                    <%
-            } else {
-                pageContext.setAttribute("greeting_user", greeting.getProperty("user"));
-            %>
-            <li class="list-group-item"><p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
+            <li class="list-group-item">
+                <blockquote><p>${fn:escapeXml(greeting_content)}</p>
+                    <footer>
+                        <%
+                            if (greeting.getProperty("user") == null) {
+                        %>
 
-                <%
-                    }
-                %>
+                        An anonymous person
 
-                <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+                        <%
+                        } else {
+                            pageContext.setAttribute("greeting_user", greeting.getProperty("user"));
+                        %>
+
+                        ${fn:escapeXml(greeting_user.nickname)}
+
+                        <%
+                            }
+                        %>
+                    </footer>
+                </blockquote>
             </li>
-            <%--<blockquote>${fn:escapeXml(greeting_date)}</blockquote>--%>
             <%
                     }
                 }
             %>
         </ul>
-
     </div>
-
-    <form action="/sign" method="post">
-        <div class="form-group">
-            <input type="content" class="form-control" name="content" id="exampleInputEmail1"
-                   placeholder="I wanna say..">
-            <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Post Greeting</button>
-
-    </form>
-    <%--End Guest Book--%>
 
     <%--<form action="/guestbook.jsp" method="get">
         <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>

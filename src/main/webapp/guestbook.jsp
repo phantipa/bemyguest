@@ -11,6 +11,7 @@
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -31,12 +32,14 @@
         pageContext.setAttribute("user", user);
 %>
 <H1>Welcome to Balenda!</H1><br/>
+
 <p>Hello, ${fn:escapeXml(user.nickname)}! (You can
     <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
 <%
 } else {
 %>
 <H1>Welcome to Balenda!</H1><br/>
+
 <p>Hello!
     <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
     to include your name with greetings you post.</p>
@@ -58,24 +61,26 @@
 <%
 } else {
 %>
-<p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>
+<%--<p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>--%>
 <%
     for (Entity greeting : greetings) {
-        pageContext.setAttribute("greeting_content",
-                greeting.getProperty("content"));
+        pageContext.setAttribute("greeting_content", greeting.getProperty("content"));
+
+        pageContext.setAttribute("greeting_date", greeting.getProperty("date"));
+
         if (greeting.getProperty("user") == null) {
 %>
 <p>An anonymous person wrote:</p>
 <%
 } else {
-    pageContext.setAttribute("greeting_user",
-            greeting.getProperty("user"));
+    pageContext.setAttribute("greeting_user", greeting.getProperty("user"));
 %>
 <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
 <%
     }
 %>
 <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+<%--<blockquote>${fn:escapeXml(greeting_date)}</blockquote>--%>
 <%
         }
     }
@@ -88,10 +93,10 @@
 </form>
 <%--End Guest Book--%>
 
-<form action="/guestbook.jsp" method="get">
+<%--<form action="/guestbook.jsp" method="get">
     <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
     <div><input type="submit" value="Switch Guestbook"/></div>
-</form>
+</form>--%>
 
 </body>
 </html>

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/balendar.iml" filepath="$PROJECT_DIR$/.idea/balendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/balendar.iml" filepath="$PROJECT_DIR$/balendar.iml" />
     </modules>
   </component>
 </project>
+

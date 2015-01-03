@@ -6,18 +6,30 @@
         <servlet-name>sign</servlet-name>
         <servlet-class>example.guestbook.SignGuestbookServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>sign</servlet-name>
+        <url-pattern>/sign</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>demo</servlet-name>
+        <servlet-class>example.DemoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>demo</servlet-name>
+        <url-pattern>/demo</url-pattern>
+    </servlet-mapping>
+
+    <!--
     <servlet>
         <servlet-name>guestbook</servlet-name>
         <servlet-class>example.guestbook.GuestbookServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>sign</servlet-name>
-        <url-pattern>/sign</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>guestbook</servlet-name>
         <url-pattern>/guestbook</url-pattern>
     </servlet-mapping>
+    -->
     <welcome-file-list>
         <welcome-file>guestbook.jsp</welcome-file>
     </welcome-file-list>

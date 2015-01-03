@@ -11,9 +11,6 @@
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
         </element>
       </element>
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/MANIFEST.MF" />
-      </element>
       <element id="javaee-facet-resources" facet="balendar/web/Web" />
     </root>
   </artifact>

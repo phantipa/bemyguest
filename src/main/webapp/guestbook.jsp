@@ -16,7 +16,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Welcome to Balenda!</title>
+    <title>Welcome to be my guest!</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -26,51 +26,57 @@
 </head>
 
 <body>
+<div class="container-full">
+    <div class="row">
+        <div class="col-lg-12 text-center v-center">
+            <h1>Be my Guest!</h1>
 
-<div class="jumbotron" style="text-align: center">
-    <h1>Be my Guest!</h1>
+            <p class="lead">
+                <%
+                    String guestbookName = request.getParameter("guestbookName");
+                    if (guestbookName == null) {
+                        guestbookName = "default";
+                    }
+                    pageContext.setAttribute("guestbookName", guestbookName);
+                    UserService userService = UserServiceFactory.getUserService();
+                    User user = userService.getCurrentUser();
+                    if (user != null) {
+                        pageContext.setAttribute("user", user);
+                %>
+
+                Hello,
+                <b>${fn:escapeXml(user.nickname)}</b>
+                ! (You can <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)
+
+                <%
+                } else {
+                %>
+
+                Hello!
+                <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
+                to include your name with greetings you post.
+                <%
+                    }
+                %>
+            </p>
+            <form class="col-lg-12" action="/sign" method="post">
+                <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
+                    <input type="text" class="center-block form-control input-lg" name="content" title="I wanna say.."
+                           placeholder="I wanna say..">
+                    <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+                    <span class="input-group-btn">
+                    <button class="btn btn-lg btn-primary" type="submit">OK</button></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /row -->
 </div>
+<!-- /container full -->
 <div class="container">
 
-    <div class="row">
-        <%
-            String guestbookName = request.getParameter("guestbookName");
-            if (guestbookName == null) {
-                guestbookName = "default";
-            }
-            pageContext.setAttribute("guestbookName", guestbookName);
-            UserService userService = UserServiceFactory.getUserService();
-            User user = userService.getCurrentUser();
-            if (user != null) {
-                pageContext.setAttribute("user", user);
-        %>
 
-        <p>Hello,
-            <b>${fn:escapeXml(user.nickname)}</b>
-            ! (You can<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)
-        </p>
-        <%
-        } else {
-        %>
-
-        <p>Hello!
-            <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-            to include your name with greetings you post.
-        </p>
-    </div>
-    <%
-        }
-    %>
-
-    <form action="/sign" method="post">
-        <div class="form-group">
-            <input type="content" class="form-control" name="content" id="exampleInputEmail1"
-                   placeholder="I wanna say..">
-            <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block btn-lg">Post Greeting</button>
-    </form>
-    <br/>
+    <br>
     <%--Guest Book--%>
     <div class="row">
         <%
@@ -83,15 +89,15 @@
             if (greetings.isEmpty()) {
         %>
         <%--<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>--%>
-        <p>Guestbook has no messages.</p>
-
+        <div class="text-center">
+        <p>Hooray! You'll be the first guest.</p>
+        </div>
         <%
         } else {
         %>
 
         <ul class="list-group">
             <%--<tr><td><p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p></td></tr>--%>
-
             <%
                 for (Entity greeting : greetings) {
                     pageContext.setAttribute("greeting_content", greeting.getProperty("content"));
@@ -104,16 +110,12 @@
                         <%
                             if (greeting.getProperty("user") == null) {
                         %>
-
-                        An anonymous person
-
+                        Anonymous
                         <%
                         } else {
                             pageContext.setAttribute("greeting_user", greeting.getProperty("user"));
                         %>
-
                         ${fn:escapeXml(greeting_user.nickname)}
-
                         <%
                             }
                         %>
@@ -126,7 +128,13 @@
             %>
         </ul>
     </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <br><br>
+            <p class="pull-right"> &nbsp; ©Copyright 2015 <a href="mailto:phantipa.cha@gmail.com">Phantipa</a></p>
+            <br><br>
+        </div>
+    </div>
     <%--<form action="/guestbook.jsp" method="get">
         <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
         <div><input type="submit" value="Switch Guestbook"/></div>

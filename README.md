@@ -4,11 +4,8 @@ appengine-skeleton
 This is a generated application from the appengine-skeleton archetype.
 
 Easy steps ...
-
 * compile `mvn clean install`
-
 * run     `mvn appengine:devserver`
-
 * deploy  `mvn appengine:update`
 
 Demo
@@ -23,8 +20,10 @@ Note
 Reference
 ---------
 * [Java7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
-* [Bootstrap](http://getbootstrap.com/)
-* [Google App Engine](https://cloud.google.com/appengine/docs/java/)
+* [Maven3.1.X](http://maven.apache.org/docs/3.1.1/release-notes.html)
+* [Bootstrap3](http://getbootstrap.com/) a front-end framework including CSS, HTML and support for responsive layouts.
+* [Google App Engine](https://cloud.google.com/appengine/docs/java/) a Platform as a Service
+* [Google Developers Console](https://console.developers.google.com/) supports all the Cloud Platform products, including App Engine, as well as other Google developer APIs.
 
 
 

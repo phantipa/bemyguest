@@ -6,8 +6,8 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <groupId>com.phantipa.balendar</groupId>
-    <artifactId>balendar</artifactId>
+    <groupId>com.phantipa.bemyguest</groupId>
+    <artifactId>bemyguest</artifactId>
 
     <properties>
         <appengine.app.version>1</appengine.app.version>

@@ -11,6 +11,21 @@ Easy steps ...
 
 * deploy  `mvn appengine:update`
 
-Note that to deploy first time login needs app password ...
+Demo
+----
+http://ascendant-line-806.appspot.com/
 
-https://security.google.com/settings/security/apppasswords?pli=1
+Note
+----
+* First deploying, login needs [app password](https://security.google.com/settings/security/apppasswords?pli=1).
+* GAE does not yet support Java8, so you should compile under Java7.
+
+Reference
+---------
+* [Java7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
+* [Bootstrap](http://getbootstrap.com/)
+* [Google App Engine](https://cloud.google.com/appengine/docs/java/)
+
+
+
+ 

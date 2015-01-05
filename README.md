@@ -3,6 +3,19 @@ Be my Guest
 
 Be my Guest is a simple app that lets the user post a greeting.
 
+####Content
+
+[Reference](../blob/master/README.md#reference)
+
+
+[Note](../blob/master/blob/master/README.md#note)
+
+
+[Easy steps](../blob/master/blob/master/README.md#easy-steps)
+
+
+[Demo](../blob/master/blob/master/README.md#demo)
+
 Reference
 ---------
 * [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)

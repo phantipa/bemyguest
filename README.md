@@ -5,16 +5,16 @@ Be my Guest is a simple app that lets the user post a greeting.
 
 ####Content
 
-[Reference](../blob/master/README.md#reference)
+[Reference](https://github.com/phantipa/bemyguest#reference)
 
 
-[Note](../blob/master/blob/master/README.md#note)
+[Note](https://github.com/phantipa/bemyguest#note)
 
 
-[Easy steps](../blob/master/blob/master/README.md#easy-steps)
+[Easy steps](https://github.com/phantipa/bemyguest#easy-steps)
 
 
-[Demo](../blob/master/blob/master/README.md#demo)
+[Demo](https://github.com/phantipa/bemyguest#demo)
 
 Reference
 ---------

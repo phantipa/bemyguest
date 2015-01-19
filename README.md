@@ -11,7 +11,7 @@ Be my Guest is a simple app that lets the user post a greeting.
 [Note](https://github.com/phantipa/bemyguest#note)
 
 
-[Easy steps](https://github.com/phantipa/bemyguest#easy-steps)
+[3 Easy steps to Build, Run and Deploy](https://github.com/phantipa/bemyguest#easy-steps)
 
 
 [Demo](https://github.com/phantipa/bemyguest#demo)
@@ -30,11 +30,11 @@ Note
 * First **deploying**, login needs [app password](https://security.google.com/settings/security/apppasswords?pli=1).
 * App Engine does not yet support Java8, so you should compile under Java7.
 
-Easy steps
-----------
-* compile `mvn clean install`
-* run     `mvn appengine:devserver`
-* deploy  `mvn appengine:update`
+3 Easy steps to Build, Run and Deploy
+-------------------------------------
+        mvn clean install
+        mvn appengine:devserver
+        mvn appengine:update
 
 Demo
 ----

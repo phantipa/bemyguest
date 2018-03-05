@@ -3,8 +3,8 @@ Be my Guest
 
 Be my Guest is a simple app that lets the user post a greeting.
 
-####Content
-
+Content
+-------
 [Reference](https://github.com/phantipa/bemyguest#reference)
 
 
